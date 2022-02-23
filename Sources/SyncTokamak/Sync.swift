@@ -1,8 +1,8 @@
 
 #if os(WASI)
-import JavaScriptKit
+import Sync
 import TokamakDOM
-import OpenCombineShim
+import OpenCombine
 
 public struct Sync<Value : SyncableObject, Content : View>: View {
     @StateObject
@@ -99,7 +99,6 @@ fileprivate class SyncViewModel<Value : SyncableObject>: ObservableObject {
                         .isConnectedPublisher
                         .removeDuplicates()
                         .filter { !$0 }
-                        .receive(on: DispatchQueue.global())
                         .sink { [unowned self] _ in
                             self.reconnectionTask?.cancel()
                             self.reconnectionTask = Task { [unowned self] in

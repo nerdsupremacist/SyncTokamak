@@ -1,8 +1,8 @@
 
 #if os(WASI)
-import JavaScriptKit
-import TokamakDOM
-import OpenCombineShim
+import Sync
+import TokamakCore
+import OpenCombine
 
 @dynamicMemberLookup
 @propertyWrapper
@@ -32,7 +32,7 @@ public struct SyncedObject<Value : SyncableObject>: DynamicProperty {
     }
 
     private init(value: Value, manager: AnyManager) {
-        self.fakeObservable = FakeObservableObject(manager: manager)
+        self._fakeObservable = ObservedObject(wrappedValue: FakeObservableObject(manager: manager))
         self.storage = Storage(value: value)
         self.manager = manager
     }
@@ -77,14 +77,11 @@ private final class FakeObservableObject: ObservableObject {
     init(manager: AnyManager) {
         self.manager = manager
         let changeEvents = manager.eventHasChanged
-        let connectionChange = manager.connection.isConnectedPublisher.removeDuplicates().map { _ in () }
+        let connectionChange: AnyPublisher<Void, Never> = manager.connection.isConnectedPublisher.removeDuplicates().map { _ in () }.eraseToAnyPublisher()
 
         changeEvents
             .merge(with: connectionChange)
             .merge(with: manualUpdate)
-            #if canImport(SwiftUI)
-            .receive(on: DispatchQueue.main)
-            #endif
             .sink { [unowned self] in objectWillChange.send() }
             .store(in: &cancellables)
     }
@@ -117,6 +114,46 @@ private final class Manager<Root : SyncableObject>: AnyManager {
 
     override var connection: Connection {
         return manager.connection
+    }
+}
+
+extension Publisher {
+
+    func merge<P>(with other: P) -> Merge<Self, P> where P : Publisher, Self.Failure == P.Failure, Self.Output == P.Output {
+        return Merge(a: self, b: other)
+    }
+
+}
+
+struct Merge<A: Publisher, B: Publisher>: Publisher where A.Output == B.Output, A.Failure == B.Failure {
+    typealias Output = A.Output
+    typealias Failure = B.Failure
+
+    let a: A
+    let b: B
+
+    func merge<C>(with c: C) -> Merge3<A, B, C> where C : Publisher, Self.Failure == C.Failure, Self.Output == C.Output {
+        return Merge3(a: a, b: b, c: c)
+    }
+
+    func receive<S>(subscriber: S) where S : Subscriber, B.Failure == S.Failure, A.Output == S.Input {
+        a.receive(subscriber: subscriber)
+        b.receive(subscriber: subscriber)
+    }
+}
+
+struct Merge3<A: Publisher, B: Publisher, C: Publisher>: Publisher where A.Output == B.Output, A.Output == C.Output, A.Failure == B.Failure, A.Failure == C.Failure {
+    typealias Output = A.Output
+    typealias Failure = B.Failure
+
+    let a: A
+    let b: B
+    let c: C
+
+    func receive<S>(subscriber: S) where S : Subscriber, B.Failure == S.Failure, A.Output == S.Input {
+        a.receive(subscriber: subscriber)
+        b.receive(subscriber: subscriber)
+        c.receive(subscriber: subscriber)
     }
 }
 #else
