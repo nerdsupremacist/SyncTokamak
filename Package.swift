@@ -11,7 +11,7 @@ let package = Package(
                  targets: ["SyncTokamak"]),
     ],
     dependencies: [
-        .package(name: "Sync", url: "https://github.com/nerdsupremacist/Sync.git", from: "1.0.0"),
+        .package(name: "Sync", url: "https://github.com/nerdsupremacist/Sync.git", from: "1.0.2"),
         .package(name: "Tokamak", url: "https://github.com/TokamakUI/Tokamak", from: "0.9.1"),
     ],
     targets: [
