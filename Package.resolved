@@ -1,0 +1,79 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AssociatedTypeRequirementsKit",
+        "repositoryURL": "https://github.com/nerdsupremacist/AssociatedTypeRequirementsKit.git",
+        "state": {
+          "branch": null,
+          "revision": "2e4c49c21ffb2135f1c99fbfcf2119c9d24f5e8c",
+          "version": "0.3.2"
+        }
+      },
+      {
+        "package": "JavaScriptKit",
+        "repositoryURL": "https://github.com/swiftwasm/JavaScriptKit.git",
+        "state": {
+          "branch": null,
+          "revision": "6c31bad4b1ef18385262f5154845648c8c95ae94",
+          "version": "0.12.0"
+        }
+      },
+      {
+        "package": "OpenCombine",
+        "repositoryURL": "https://github.com/OpenCombine/OpenCombine.git",
+        "state": {
+          "branch": null,
+          "revision": "9cf67e363738dbab61b47fb5eaed78d3db31e5ee",
+          "version": "0.13.0"
+        }
+      },
+      {
+        "package": "OpenCombineJS",
+        "repositoryURL": "https://github.com/swiftwasm/OpenCombineJS.git",
+        "state": {
+          "branch": null,
+          "revision": "f1f1799ddbb9876a0ef8c5700a3b78d352d0b969",
+          "version": "0.1.2"
+        }
+      },
+      {
+        "package": "swift-argument-parser",
+        "repositoryURL": "https://github.com/apple/swift-argument-parser",
+        "state": {
+          "branch": null,
+          "revision": "6b2aa2748a7881eebb9f84fb10c01293e15b52ca",
+          "version": "0.5.0"
+        }
+      },
+      {
+        "package": "Benchmark",
+        "repositoryURL": "https://github.com/google/swift-benchmark",
+        "state": {
+          "branch": null,
+          "revision": "a0564bf88df5f94eec81348a2f089494c6b28d80",
+          "version": "0.1.1"
+        }
+      },
+      {
+        "package": "Sync",
+        "repositoryURL": "https://github.com/nerdsupremacist/Sync.git",
+        "state": {
+          "branch": null,
+          "revision": "62d42c2ea8202ad8631dd5f81f669374e8317eb7",
+          "version": "1.0.1"
+        }
+      },
+      {
+        "package": "Tokamak",
+        "repositoryURL": "https://github.com/TokamakUI/Tokamak",
+        "state": {
+          "branch": null,
+          "revision": "3c649d5ead97882d86eb459e9f70b400e5dc31be",
+          "version": "0.9.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
